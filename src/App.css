@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+
+#appIcon{
+  padding: 10px;
+  width: 25%;
+  margin: auto;
+  display: block;
+  border-radius: 50%;
+  background-color: rgb(226, 226, 226);
+}
+
+.icon-hover:hover {
+  color: blue; /* Change to whatever color you want on hover */
+}

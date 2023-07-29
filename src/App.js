@@ -1,6 +1,7 @@
 import './App.css';
 import { useEffect } from 'react';
 import axios from 'axios';
+import SideBar from './components/SideBar';
 import { vehicleURL } from './globalVars';
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
 
   return (
     <div className="App">
-
+      <SideBar />
     </div>
   );
 }
