@@ -1,7 +1,7 @@
 import './App.css';
 import { useEffect } from 'react';
 import axios from 'axios';
-
+import { vehicleURL } from './globalVars';
 
 function App() {
 
@@ -9,9 +9,9 @@ function App() {
     const fetchData = async () => {
       const result = await axios({
         method: "POST",
-        url: "https://detect.roboflow.com/vehicles-q0x2v/1",
+        url: `${vehicleURL}`,
         params: {
-            api_key: "qTSxQBkJ4NGImrAEXLTT",
+            api_key: `${process.env.REACT_APP_ROBOFLOW_API_KEY}`,
             image: "https://images.data.gov.sg/api/traffic-images/2023/07/bafc86e1-821d-4f3b-9366-42e1510f7a2f.jpg"
         }
       })
