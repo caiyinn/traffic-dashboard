@@ -30,6 +30,7 @@ function App() {
   return (
     <div className="App">
       <SideBar />
+      {/* <NavigationRoute /> */}
     </div>
   );
 }
