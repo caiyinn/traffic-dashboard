@@ -19,7 +19,7 @@ const SideBar = () => {
 
     return (
         <div style={{display: 'grid', gridTemplateColumns: 'auto 1fr'}}>
-            <Sidebar collapsed ={menuCollapse} style={{backgroundColor:"#F3F6FA", height:'100vh'}}>
+            <Sidebar collapsed ={menuCollapse} style={{backgroundColor:"white", height:'100vh'}}>
                 <Menu style={{marginTop:"20px"}}>
                     <MenuItem className="menu1" 
                     icon={<MenuRoundedIcon/>} 

@@ -20,7 +20,7 @@ const Form = (props) => {
                     label="Enter Expressway"
                     InputProps={{
                         ...params.InputProps,
-                        style: { paddingLeft: "40px" },
+                        style: { paddingLeft: "40px", backgroundColor:"white", borderRadius:"10px" },
                         startAdornment: (
                         <InputAdornment position="start">
                             <SearchIcon style={{ position: "absolute", left:"15px", top:"15px"}} />
