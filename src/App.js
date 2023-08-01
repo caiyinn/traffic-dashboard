@@ -13,11 +13,12 @@ function App() {
         url: `${vehicleURL}`,
         params: {
             api_key: `${process.env.REACT_APP_ROBOFLOW_API_KEY}`,
-            image: "https://images.data.gov.sg/api/traffic-images/2023/07/bafc86e1-821d-4f3b-9366-42e1510f7a2f.jpg"
+            image: "https://sm.mashable.com/t/mashable_sea/image/p/philippine/philippines-tries-to-solve-its-crippling-traffic-jams-with-l_a26x.2496.jpg"
         }
       })
       .then(function(response) {
           console.log(response.data);
+          
       })
       .catch(function(error) {
           console.log(error.message);
