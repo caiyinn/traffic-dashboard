@@ -82,7 +82,9 @@ const UploadImage = () => {
 
     const HandleImageDisplay = () => {
         if (image && !imageLoading) {
-            return <img src={image.dataUrl} style={{marginTop:"40px", width:"85%", height:"75%",  margin:"auto"}} />
+            return (
+                    <img src={image.dataUrl} style={{display:"flex", maxWidth:"85%",  height:"75%", margin:"30px auto"}}/>
+            )
         } 
         else if (image && imageLoading && loading && !error) {
             return (
@@ -92,12 +94,12 @@ const UploadImage = () => {
             )
         } 
         else if (image && imageLoading && !loading && !error) {
-            return <div style={{marginTop:"40px", width:"85%", height:"75%",  margin:"auto", backgroundColor:"grey"}} />
+            return <div style={{marginTop:"40px", maxWidth:"85%", height:"75%",  margin:"auto", backgroundColor:"grey"}} />
         }
         else if (error) {
             return (
                 <>
-                    <img src={problem} style={{width:"20%", margin:"auto"}} />
+                    <img src={problem} style={{maxWidth:"20%", margin:"auto"}} />
                     <Typography variant="h6" style={{color:"red", fontWeight:"normal", fontSize:"25px", margin:" 10px auto"}}>
                         Error in uploading image. Please try again.
                     </Typography>
@@ -105,7 +107,7 @@ const UploadImage = () => {
             )
         }
         else {
-            return <img src={upload} style={{width:"20%", display: "flex", margin:"auto"}} />
+            return <img src={upload} style={{maxWidth:"20%", display: "flex", margin:"auto"}} />
         }
     }
 
