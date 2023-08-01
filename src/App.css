@@ -23,3 +23,25 @@
 .icon-hover:hover {
   color: blue; /* Change to whatever color you want on hover */
 }
+
+.toggle-menu:hover {
+  cursor: pointer;
+  background-color: rgb(235, 235, 235);
+}
+
+.upload-image-container{
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 60%;
+  border: 2px dashed rgb(206, 206, 206);
+  border-radius: 10px;
+  margin: 20px auto;
+}
+
+.prediction-container{
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin:auto;
+}
