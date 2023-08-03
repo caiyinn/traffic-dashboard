@@ -33,8 +33,7 @@
   display: flex;
   flex-direction: column;
   width: 80%;
-  height: 70%;
-  border: 2px dashed rgb(206, 206, 206);
+  border: 4px dashed rgb(206, 206, 206);
   border-radius: 10px;
   margin: 20px auto;
 }
@@ -45,3 +44,5 @@
   width: 80%;
   margin:auto;
 }
+
+

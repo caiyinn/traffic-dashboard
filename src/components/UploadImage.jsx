@@ -5,6 +5,9 @@ import problem from '../assets/problem.png';
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import {useEffect} from 'react';
+import DrawBbox from './DrawBbox';
+import { getAreaCoveragePercentage } from '../globalFunctions/utils';
 
 const UploadImage = () => {
     const [image, setImage] = useState(null);
@@ -13,7 +16,8 @@ const UploadImage = () => {
     const [loading, setLoading] = useState(false);
     const [initial, setInitial] = useState(true);
     const [error, setError] = useState(false);
-    const [prediction, setPrediction] = useState(null);
+    const [bbox, setBbox] = useState({});
+    const [imageInfo, setImageInfo] = useState({});
 
     const handleUpload = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -25,20 +29,19 @@ const UploadImage = () => {
                     dataUrl: reader.result
                 });
                 setImageLoading(true);
-                fetchData(reader.result.split(',')[1]); // Removing the base64 header
+                // fetchData(reader.result.split(',')[1]); // Removing the base64 header
             };
-    
             reader.readAsDataURL(e.target.files[0]);
         }
     };
     
-    const fetchData = async (base64Image) => {
-        const storeLength = {
-            minX: 0,
-            minY: 0,
-            maxX: 0,
-            maxY: 0,
+    useEffect(() => {
+        if (image!==null) {
+            fetchData(image.dataUrl.split(',')[1]);
         }
+    }, [image])
+
+    const fetchData = async (base64Image) => {
         setLoading(true);
         await axios({
             method: "POST",
@@ -54,22 +57,19 @@ const UploadImage = () => {
         .then(function(response) {
             setError(false);
             setInitial(false);
-            console.log(response.data.predictions[0]);
-            storeLength.minX = Math.min(...response.data.predictions.map(prediction => prediction.x));
-            storeLength.minY = Math.min(...response.data.predictions.map(prediction => prediction.y));
-            storeLength.maxX = Math.max(...response.data.predictions.map(prediction => prediction.x));
-            storeLength.maxY = Math.max(...response.data.predictions.map(prediction => prediction.y));
-            console.log(storeLength);
-            const displayInfo = response.data.predictions.map (prediction => {
+            setImageInfo(response.data.image);
+            const boxInfo = response.data.predictions.map (prediction => {
                 return {
                     label: prediction.class,
                     confidence: prediction.confidence,
+                    x: prediction.x,
+                    y: prediction.y,
+                    width: prediction.width,
+                    height: prediction.height,
                 }
             })
-            const vehicleArea = (storeLength.maxX - storeLength.minX) * (storeLength.maxY - storeLength.minY);
-            const imageArea = response.data.image.width * response.data.image.height;
-            const vehiclePercentage = (vehicleArea / imageArea) * 100;
-            setPercent(vehiclePercentage);
+            setBbox(boxInfo);
+            setPercent(getAreaCoveragePercentage(response.data));
             setLoading(false);
             setImageLoading(false);
         })
@@ -81,33 +81,40 @@ const UploadImage = () => {
 
 
     const HandleImageDisplay = () => {
+        // if image is uploaded and loading is false
         if (image && !imageLoading) {
             return (
-                    <img src={image.dataUrl} style={{display:"flex", maxWidth:"85%",  height:"75%", margin:"30px auto"}}/>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div style={{ position: "relative", display: "inline-block", marginTop: "30px", width: "85%" }}>
+                        <img src={image.dataUrl} style={{width:"100%", height:"auto"}}/>
+                        {/* draw bounding box */}
+                        <DrawBbox bbox={bbox} imageInfo={imageInfo} />
+                    </div>
+                </div>
             )
-        } 
+        }
+        // if image is uploaded and loading is true
         else if (image && imageLoading && loading && !error) {
             return (
-                <Box sx={{display:'flex', margin:"auto"}}>
+                <Box sx={{display:'flex', margin:"80px auto"}}>
                     <CircularProgress />
                 </Box>
             )
         } 
-        else if (image && imageLoading && !loading && !error) {
-            return <div style={{marginTop:"40px", maxWidth:"85%", height:"75%",  margin:"auto", backgroundColor:"grey"}} />
-        }
+        // if error in uploading image
         else if (error) {
             return (
                 <>
-                    <img src={problem} style={{maxWidth:"20%", margin:"auto"}} />
+                    <img src={problem} style={{maxWidth:"20%", margin:"80px auto"}} />
                     <Typography variant="h6" style={{color:"red", fontWeight:"normal", fontSize:"25px", margin:" 10px auto"}}>
                         Error in uploading image. Please try again.
                     </Typography>
                 </>                
             )
         }
+        // if no image is uploaded // initial state
         else {
-            return <img src={upload} style={{maxWidth:"20%", display: "flex", margin:"auto"}} />
+            return <img src={upload} style={{maxWidth:"20%", display: "flex", margin:"80px auto"}} />
         }
     }
 
