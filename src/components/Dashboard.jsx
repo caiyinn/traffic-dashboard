@@ -2,14 +2,18 @@ import Form from "./Form";
 import {useState} from 'react';
 import map from '../assets/map.jpg'
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
+import Map from "./Map";
+import  {geoLocation}  from "../globalVars";
 
 const Dashboard = () => {
 
     const [expressway, setExpressway] = useState("Ayer Rajah Expressway")
+    const [expresswayPoints, setExpresswayPoints] = useState(geoLocation[expressway])
 
     const handleSubmit = (e) => {
         console.log(e.target.innerText)
         setExpressway(e.target.innerText)
+        setExpresswayPoints(geoLocation[e.target.innerText])
     }
 
     return ( 
@@ -50,7 +54,7 @@ const Dashboard = () => {
                     </CardContent>
                 </Card>
                 </div>
-                <img src={map} style={{width:"60%", borderRadius:"20px"}}/>
+                <Map expresswayPoints={expresswayPoints}/>
             </div>
         </div>
      );
