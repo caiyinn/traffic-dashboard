@@ -5,9 +5,19 @@ import PopUp from './PopUp';
 
 const Map = (props) => {
 
-    const pos = props.expresswayPoints.map(point => 
-        <PopUp latitude={point.location.latitude} longitude={point.location.longitude}/>
-    );
+  const pos = props.expresswayPoints.map((point, idx) => {
+    if (props.trafficData[idx]) {
+        console.log(props.trafficData[idx][0].image);
+        return (
+          <PopUp 
+            image={props.trafficData[idx][0].image}
+            latitude={point.location.latitude} 
+            longitude={point.location.longitude} 
+            key={idx}
+          />
+        );
+    }
+  });
 
   const singaporeCenter = [1.3521, 103.8198];
   return (

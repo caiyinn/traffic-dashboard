@@ -21,16 +21,11 @@ const SideBar = () => {
         <div style={{display: 'grid', gridTemplateColumns: 'auto 1fr'}}>
             <Sidebar collapsed={menuCollapse} style={{backgroundColor:"white", height:'100vh', boxShadow:"none"}}>
                 <Menu style={{marginTop:"20px"}}>
-                    {/* <MenuItem className="menu1" 
-                    icon={<MenuRoundedIcon/>} 
-                    onClick={handleMenuCollapse}/> */}
                     <MenuRoundedIcon 
                     className="toggle-menu"
                     onClick={handleMenuCollapse} 
                     style={{marginLeft:"25px", marginBottom:"10px", color:"#696969"}}/>
-
                     <img src={travel} id="appIcon"/>
-                    {/* <h2>Traffic</h2> */}
                     <MenuItem className="dashboard"
                         icon={<MonitorIcon style={iconColor}/>} 
                         component={<Link to="dashboard"/>}>Dashboard

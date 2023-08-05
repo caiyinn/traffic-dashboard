@@ -15,9 +15,8 @@ const PopUp = (props) => {
     return ( 
         <Marker position={pos} icon={pin} >
             <Popup>
-                {/* A pretty CSS3 popup.<br />Easily customizable. */}
-                <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", width:"200px"}}>
-                    <img src={"https://sm.mashable.com/t/mashable_sea/image/p/philippine/philippines-tries-to-solve-its-crippling-traffic-jams-with-l_a26x.2496.jpg"} style={{  width: "100%", margin:"auto"}} />
+                <div style={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", width:"300px"}}>
+                    <img src={props.image} style={{  width: "100%", margin:"auto"}} />
                 </div>
             </Popup>
         </Marker>
