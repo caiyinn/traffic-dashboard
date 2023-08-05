@@ -7,13 +7,17 @@ const Map = (props) => {
 
   const pos = props.expresswayPoints.map((point, idx) => {
     if (props.trafficData[idx]) {
-        console.log(props.trafficData[idx][0].image);
         return (
           <PopUp 
             image={props.trafficData[idx][0].image}
             latitude={point.location.latitude} 
             longitude={point.location.longitude} 
+            expresswayName = {point.expresswayName}
             key={idx}
+            result={props.result?.[idx] || []}
+            imageInfo={props.imageInfo?.[idx] || []}
+            crowd={props.crowd?.[idx] || 0}
+            dt = {props.dt}
           />
         );
     }

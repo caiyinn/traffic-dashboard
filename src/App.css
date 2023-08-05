@@ -45,4 +45,6 @@
   margin:auto;
 }
 
-
+.leaflet-popup.detail-popup .leaflet-popup-content-wrapper {
+  width: 500px; /* or any width you desire */
+}

@@ -1,5 +1,4 @@
 export const getAreaCoveragePercentage = (data) => {
-    console.log("check", data)
     const storeLength = {
         minX: 0,
         minY: 0,
@@ -13,6 +12,7 @@ export const getAreaCoveragePercentage = (data) => {
     const vehicleArea = (storeLength.maxX - storeLength.minX) * (storeLength.maxY - storeLength.minY);
     const imageArea = data.image.width * data.image.height;
     const vehiclePercentage = (vehicleArea / imageArea) * 100;
+    // console.log("sdf",vehiclePercentage);
     return vehiclePercentage;
 }
 
