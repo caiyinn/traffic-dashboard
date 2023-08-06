@@ -10,21 +10,24 @@ import axios from 'axios';
 import { useEffect } from "react";
 import CardInfo from "./CardInfo";
 import { getAreaCoveragePercentage } from '../globalFunctions/utils';
-import {LinearProgress} from '@mui/material'
-import sun from '../assets/weather/sun.png'
-
+import DoughnutChart from "./DoughnutChart";
 const Dashboard = () => {
     const [expressway, setExpressway] = useState("Ayer Rajah Expressway")
     const [expresswayPoints, setExpresswayPoints] = useState(geoLocation[expressway])
     const [trafficData, setTrafficData] = useState([])
-    const [result, setResult] = useState([])
     const [congestion, setCongestion] = useState(0)
     const [loading, setLoading] = useState(false)
-    const [imageInfo, setImageInfo] = useState({})
     const [time, setTime] = useState("")
     const [weather, setWeather] = useState({
         icon: "",
         description: "",
+    })
+    const [vehicle, setVehicle] = useState({
+        car: 0,
+        bus: 0,
+        truck: 0,
+        motorcycle: 0,
+        bicycle: 0,
     })
 
     const handleSubmit = (e) => {
@@ -32,7 +35,6 @@ const Dashboard = () => {
         setExpressway(e.target.innerText)
         setExpresswayPoints(geoLocation[e.target.innerText])
     }
-    const [crowd, setCrowd] = useState([])
 
     const fetchTrafficData = async () => {
         const dt = getDTNow();
@@ -73,7 +75,13 @@ const Dashboard = () => {
         let imageInfoTemp = [];
         let totalPercent = 0;
         let count = 0;
-        let crowdTemp = [];
+        let tempVehicle = {
+            car: 0,
+            bus: 0,
+            truck: 0,
+            motorcycle: 0,
+            bicycle: 0,
+        }
         // create an array to store all promises
         let promises = [];
         setLoading(true);
@@ -88,26 +96,36 @@ const Dashboard = () => {
                             image: `${camera.image}`
                         }
                     }).then(response => {
-                        const boxInfo = response.data.predictions.map (prediction => {
-                            return {
-                                label: prediction.class,
-                                confidence: prediction.confidence,
-                                x: prediction.x,
-                                y: prediction.y,
-                                width: prediction.width,
-                                height: prediction.height,
-                            }
-                        });
-                        temp.push(boxInfo);
                         imageInfoTemp.push({
                             height: response.data.height,
                             width: response.data.width
                         })
-                        response.data.predictions.length>0? crowdTemp.push(response.data.predictions.length): crowdTemp.push(0);
                         if (response.data.predictions.length > 0){
                             totalPercent+=getAreaCoveragePercentage(response.data)
                             count++;
                         }
+                        response.data.predictions.length>0? temp.push(response.data.predictions.length): temp.push(0);
+
+                        response.data.predictions.length>0? 
+                            response.data.predictions.forEach(prediction => {
+                                if (prediction.class.includes("car")){
+                                    tempVehicle.car++;
+                                }
+                                else if (prediction.class.includes("bus")){
+                                    tempVehicle.bus++;
+                                }
+                                else if (prediction.class.includes("truck")){
+                                    tempVehicle.truck++;
+                                }
+                                else if (prediction.class.includes("motorcycle")){
+                                    tempVehicle.motorcycle++;
+                                }
+                                else if (prediction.class.includes("bicycle")){
+                                    tempVehicle.bicycle++;
+                                }
+                            }) :
+
+                        setVehicle(tempVehicle);
                     }).catch(function(error) {
                         console.log(error.message);
                     }) 
@@ -118,9 +136,6 @@ const Dashboard = () => {
         // Wait for all promises to resolve, forEach by nature does not wait for async functions to finish before moving on
         await Promise.all(promises);
         setLoading(false);
-        setResult(temp);
-        setCrowd(crowdTemp);
-        setImageInfo(imageInfoTemp);
         count === 0 ? setCongestion(0) : setCongestion(totalPercent/count);
     }
 
@@ -150,16 +165,9 @@ const Dashboard = () => {
             console.log(error);
         })
     }
-    
 
     useEffect(() => {
-        console.log("Traffic Data: ",trafficData)
-        console.log(result);
-        console.log(congestion);
-        console.log(weather)
-    }, [result])
-
-    useEffect(() => {
+        console.log(trafficData);
         fetchTrafficCongestion();
     }, [trafficData])
 
@@ -223,11 +231,23 @@ const Dashboard = () => {
                         </Typography>
                     </CardContent>
                 </Card>
-                    {/* <CardInfo expressway={expressway}/>
-                    <CardInfo/>
-                    <CardInfo/> */}
+                    
                 </div>
-                {loading ? <h1>Loading...</h1> : <Map expresswayPoints={expresswayPoints} trafficData={trafficData} dt={time} /> }
+                
+                {loading? <h1>loading</h1>:
+                    <div style={{display:"flex"}}>
+                    <Map expresswayPoints={expresswayPoints} trafficData={trafficData} dt={time} /> 
+                    <Card style={{width:"40%", marginLeft:"20px", borderRadius:'10px', border: "1px solid #dbdbdb", boxShadow:"none",  height:"50vh"}}>
+                        <CardContent>
+                            <Typography variant="h5" style={{color:"#9a9a9a", marginLeft:"20px", marginTop:"10px",  marginBottom:"15px"}}>
+                                Vehicles
+                            </Typography>
+                            <DoughnutChart style={{margin:"auto"}} vehicle={vehicle} congestion={congestion}/>
+                        </CardContent>
+                    </Card>
+                    </div>
+                }
+                
             </div>
         </div>
      );
