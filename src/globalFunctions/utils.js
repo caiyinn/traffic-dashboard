@@ -36,3 +36,28 @@ export const getDTNow = () => {
         second: second
     }
 }
+
+export const weatherIconHandler = (currentWeather) => {
+    currentWeather = currentWeather.toLowerCase();
+    if (currentWeather === "clear sky"){
+        return "sun.png";
+    }
+    else if (currentWeather.includes("few clouds") || currentWeather.includes("scattered clouds")){
+      return "few clouds.png";
+    }
+    else if (currentWeather.includes("broken clouds") || currentWeather.includes("overcast clouds")){
+      return "clouds.png";
+    }
+    else if (currentWeather.includes("rain") && !currentWeather.includes("thunderstorm")){
+      return "raining.png";
+    }
+    else if (currentWeather.includes("thunderstorm")){
+      return "thunderstorm.png";
+    }
+    else if (currentWeather.includes("snow")){
+      return "snow.png";
+    }
+    else if (currentWeather.includes("mist") || currentWeather.includes("haze")){
+      return "mist.png";
+    }
+}

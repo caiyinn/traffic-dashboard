@@ -6,7 +6,7 @@ import PopUp from './PopUp';
 const Map = (props) => {
 
   const pos = props.expresswayPoints.map((point, idx) => {
-    if (props.trafficData[idx]) {
+    if (props.trafficData[idx] && props.trafficData[idx][0]) {
         return (
           <PopUp 
             image={props.trafficData[idx][0].image}
@@ -14,9 +14,6 @@ const Map = (props) => {
             longitude={point.location.longitude} 
             expresswayName = {point.expresswayName}
             key={idx}
-            result={props.result?.[idx] || []}
-            imageInfo={props.imageInfo?.[idx] || []}
-            crowd={props.crowd?.[idx] || 0}
             dt = {props.dt}
           />
         );

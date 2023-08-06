@@ -18,6 +18,20 @@ export const road = [
     { label: 'Woodlands Checkpoint'},
 ];
 
+export const lengthOfRoad = {
+    "Ayer Rajah Expressway": 26.5,
+    "Bukit Timah Expressway": 10.0,
+    "Central Expressway": 15.8,
+    "East Coast Parkway": 20.0,
+    "Kallang-Paya Lebar Expressway": 12.0,
+    "Kranji Expressway": 8.0,
+    "Marina Coastal Expressway": 5.0,
+    "Pan-Island Expressway": 42.8,
+    "Seletar Expressway": 10.8,
+    "Tampines Expressway": 14.0,
+    "Tuas Checkpoint": 1.9,
+    "Woodlands Checkpoint": 2.4,
+}
 
 export const geoLocation = {
     "Ayer Rajah Expressway": [
