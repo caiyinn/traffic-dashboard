@@ -69,6 +69,7 @@ const UploadImage = () => {
                 }
             })
             setBbox(boxInfo);
+            console.log(response.data)
             boxInfo.length === 0 ? setPercent(0) : setPercent(getAreaCoveragePercentage(response.data));
             setLoading(false);
             setImageLoading(false);

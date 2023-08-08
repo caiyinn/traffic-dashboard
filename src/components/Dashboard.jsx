@@ -71,8 +71,6 @@ const Dashboard = () => {
     }
 
     const fetchTrafficCongestion = async () => {
-        let temp = [];
-        let imageInfoTemp = [];
         let totalPercent = 0;
         let count = 0;
         let tempVehicle = {
@@ -96,18 +94,13 @@ const Dashboard = () => {
                             image: `${camera.image}`
                         }
                     }).then(response => {
-                        imageInfoTemp.push({
-                            height: response.data.height,
-                            width: response.data.width
-                        })
                         if (response.data.predictions.length > 0){
                             totalPercent+=getAreaCoveragePercentage(response.data)
                             count++;
                         }
-                        response.data.predictions.length>0? temp.push(response.data.predictions.length): temp.push(0);
-
                         response.data.predictions.length>0? 
                             response.data.predictions.forEach(prediction => {
+                                console.log("class: ", prediction.class);
                                 if (prediction.class.includes("car")){
                                     tempVehicle.car++;
                                 }
@@ -123,9 +116,8 @@ const Dashboard = () => {
                                 else if (prediction.class.includes("bicycle")){
                                     tempVehicle.bicycle++;
                                 }
-                            }) :
+                            }) : console.log("No vehicles detected");
 
-                        setVehicle(tempVehicle);
                     }).catch(function(error) {
                         console.log(error.message);
                     }) 
@@ -135,6 +127,7 @@ const Dashboard = () => {
     
         // Wait for all promises to resolve, forEach by nature does not wait for async functions to finish before moving on
         await Promise.all(promises);
+        setVehicle(tempVehicle);
         setLoading(false);
         count === 0 ? setCongestion(0) : setCongestion(totalPercent/count);
     }

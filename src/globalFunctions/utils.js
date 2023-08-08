@@ -4,15 +4,26 @@ export const getAreaCoveragePercentage = (data) => {
         minY: 0,
         maxX: 0,
         maxY: 0,
+        width: 0,
+        height: 0
     }
     storeLength.minX = Math.min(...data.predictions.map(box => box.x));
     storeLength.minY = Math.min(...data.predictions.map(box => box.y));
     storeLength.maxX = Math.max(...data.predictions.map(box => box.x));
     storeLength.maxY = Math.max(...data.predictions.map(box => box.y));
-    const vehicleArea = (storeLength.maxX - storeLength.minX) * (storeLength.maxY - storeLength.minY);
+    
+    if (storeLength.minX === storeLength.maxX){
+        storeLength.width = data.predictions[0].width 
+        storeLength.height = data.predictions[0].height 
+    }
+    else {
+        storeLength.width = storeLength.maxX - storeLength.minX;
+        storeLength.height = storeLength.maxY - storeLength.minY;
+    }
+    const vehicleArea = storeLength.width * storeLength.height;
     const imageArea = data.image.width * data.image.height;
     const vehiclePercentage = (vehicleArea / imageArea) * 100;
-    console.log("percent",vehiclePercentage); 
+    // console.log("percent",vehiclePercentage); 
     return vehiclePercentage;
 }
 

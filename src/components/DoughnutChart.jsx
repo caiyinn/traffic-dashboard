@@ -5,20 +5,20 @@ import { Typography } from '@mui/material';
 ChartJS.register(ArcElement, Tooltip, Legend); // Register ArcElement here
 
 const DoughnutChart = (props) => {
+  console.log("data: ",props.vehicle)
   const data = {
     labels: ["car", "bus", "truck", "motorcycle", "bicycle"],
 
     datasets: [
       {
         label: '# of Vehicles',
-        data: [props.vehicle.car, props.vehicle.bus, props.vehicle.truck, props.vehicle.motorcycle, props.vehicle.bicycle, props.vehicle.other],
+        data: [props.vehicle.car, props.vehicle.bus, props.vehicle.truck, props.vehicle.motorcycle, props.vehicle.bicycle],
         backgroundColor: [
           'rgba(255, 99, 132, 0.5)',
           'rgba(54, 162, 235, 0.5)',
           'rgba(255, 206, 86, 0.5)',
           'rgba(75, 192, 192, 0.5)',
           'rgba(153, 102, 255, 0.5)',
-          'rgba(255, 159, 64, 0.5)',
         ],
         borderColor: [
           'rgba(255, 99, 132, 1)',
@@ -26,7 +26,6 @@ const DoughnutChart = (props) => {
           'rgba(255, 206, 86, 1)',
           'rgba(75, 192, 192, 1)',
           'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
         ],
         borderWidth: 2,
       },
@@ -60,7 +59,6 @@ const DoughnutChart = (props) => {
             <Doughnut data={data} options={options} style={{width:"80%", margin: "10px auto"}} />
         }
     </>    
-
   );
 };
 
