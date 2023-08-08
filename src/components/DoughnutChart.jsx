@@ -55,7 +55,7 @@ const DoughnutChart = (props) => {
                     No Vehicle Detected
                 </Typography>
             </div>  :
-            <Doughnut data={data} options={options} style={{width:"80%", margin: "10px auto"}} />
+            <Doughnut data={data} options={options} style={{width:"70%", margin: "10px auto"}} />
         }
     </>    
   );
