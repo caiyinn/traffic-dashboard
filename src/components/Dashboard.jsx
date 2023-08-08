@@ -1,6 +1,5 @@
 import Form from "./Form";
 import {useState} from 'react';
-import map from '../assets/map.jpg'
 import { Card, CardContent, CardMedia, Typography } from '@mui/material'
 import Map from "./Map";
 import distance from '../assets/distance.png'
@@ -8,9 +7,12 @@ import  {geoLocation, vehicleURL, lengthOfRoad}  from "../globalVars";
 import { getDTNow, weatherIconHandler } from "../globalFunctions/utils";
 import axios from 'axios';
 import { useEffect } from "react";
-import CardInfo from "./CardInfo";
+import CircularProgress from '@mui/material/CircularProgress';
 import { getAreaCoveragePercentage } from '../globalFunctions/utils';
 import DoughnutChart from "./DoughnutChart";
+import Box from '@mui/material/Box';
+import CardInfo from "./CardInfo";
+
 const Dashboard = () => {
     const [expressway, setExpressway] = useState("Ayer Rajah Expressway")
     const [expresswayPoints, setExpresswayPoints] = useState(geoLocation[expressway])
@@ -172,63 +174,46 @@ const Dashboard = () => {
     return ( 
         <div style={{margin:'auto', width: "90%"}}>
             <Form handleSubmit={handleSubmit}/>
+            {loading?
+            <Box sx={{display:'flex', margin:"200px auto", justifyContent:"center"}}>
+                <CircularProgress />
+            </Box>:
             <div className="content" style={{paddingTop:"20px"}}>
                 <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap:"15px"}}>
-                <Card style={{marginBottom:"20px", borderRadius:'10px', border: "1px solid #dbdbdb", boxShadow:"none"}}>
-                    <CardContent style={{ marginLeft: '20px' }}>
-                        <Typography variant="h6" style={{color:"#9a9a9a"}}>
-                            Traffic Congestion
-                        </Typography>
-                        <Typography variant="h5" component="h2" style={{fontSize:"30px"}}>
-                            {/* <img src={distance} style={{width:"40px", height:"40px", marginRight:"30px", marginTop:"20px", }}/> */}
-                            <div className="congestion-bar" 
-                            style={{ 
-                                width: "90%",
-                                height: "20px",
-                                marginTop: "40px",
-                                borderRadius: "10px",
-                                backgroundColor: "#e0e0e0",
-                                overflow: "hidden",
-                             }}>
-                                <div className="congestion-progress" style={{
-                                    width: `${congestion}%`,
-                                    height: "100%",
-                                    backgroundColor: "#ff6f00",
-                                    borderRadius: "10px",
-                                    transition: "width 1s ease-in-out",
-                                }}></div>
-                            </div>
-                        </Typography>
-                    </CardContent>
-                </Card>
-                <Card style={{marginBottom:"20px", borderRadius:'10px', border: "1px solid #dbdbdb", boxShadow:"none"}}>
-                    <CardContent style={{ marginLeft: '20px' }}>
-                        <Typography variant="h6" style={{color:"#9a9a9a"}}>
-                            Mileage
-                        </Typography>
-                        
-                        <Typography variant="h5" component="h2" style={{fontSize:"30px"}}>
-                            <img src={distance} style={{width:"40px", height:"40px", marginRight:"30px", marginTop:"20px", }}/>
-                            {lengthOfRoad[expressway]}km
-                        </Typography>
-                    </CardContent>
-                </Card>
-                <Card style={{marginBottom:"20px", borderRadius:'10px', border: "1px solid #dbdbdb", boxShadow:"none"}}>
-                    <CardContent style={{ marginLeft: '20px' }}>
-                        <Typography variant="h6" style={{color:"#9a9a9a"}}>
-                            Current Weather
-                        </Typography>
-                        <Typography variant="h5" component="h2" style={{fontSize:"30px"}}>
-                            <img src={weather.icon} style={{width:"40px", height:"40px", marginRight:"30px", marginTop:"20px", }}/>
-                            {weather.description}
-                        </Typography>
-                    </CardContent>
-                </Card>
-                    
+                <CardInfo
+                    title="Traffic Congestion"
+                    content={
+                    <div className="congestion-bar" 
+                    style={{ 
+                        width: "90%",
+                        height: "20px",
+                        marginTop: "40px",
+                        borderRadius: "10px",
+                        backgroundColor: "#e0e0e0",
+                        overflow: "hidden",
+                    }}>
+                        <div className="congestion-progress" style={{
+                            width: `${congestion}%`,
+                            height: "100%",
+                            backgroundColor: "#ff6f00",
+                            borderRadius: "10px",
+                            transition: "width 1s ease-in-out",
+                        }}></div>
+                    </div>
+                    }
+                />
+                <CardInfo
+                    title="Mileage"
+                    image={distance}
+                    content={`${lengthOfRoad[expressway]}km`}
+                />
+                <CardInfo
+                    title="Current Weather"
+                    image={weather.icon}
+                    content={weather.description}
+                />
                 </div>
-                
-                {loading? <h1>loading</h1>:
-                    <div style={{display:"flex"}}>
+                <div style={{display:"flex"}}>
                     <Map expresswayPoints={expresswayPoints} trafficData={trafficData} dt={time} /> 
                     <Card style={{width:"40%", marginLeft:"20px", borderRadius:'10px', border: "1px solid #dbdbdb", boxShadow:"none",  height:"50vh"}}>
                         <CardContent>
@@ -238,10 +223,9 @@ const Dashboard = () => {
                             <DoughnutChart style={{margin:"auto"}} vehicle={vehicle} congestion={congestion}/>
                         </CardContent>
                     </Card>
-                    </div>
-                }
-                
+                </div>
             </div>
+            }
         </div>
      );
 }

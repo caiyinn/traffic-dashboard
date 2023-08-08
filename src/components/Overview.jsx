@@ -6,6 +6,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from "@mui/material/Box";
 import {useState, useEffect} from 'react';
 import { lengthOfRoad, geoLocation, vehicleURL } from "../globalVars";
 import { getDTNow } from "../globalFunctions/utils";
@@ -31,39 +33,67 @@ const Overview = () => {
         "Tuas Checkpoint": [],
         "Woodlands Checkpoint": [],
     });
-    const [areaCoverage, setAreaCoverage] = useState({
-        "Ayer Rajah Expressway": 0,
-        "Bukit Timah Expressway": 0,
-        "Central Expressway": 0,
-        "East Coast Parkway": 0,
-        "Kallang-Paya Lebar Expressway": 0,
-        "Kranji Expressway": 0,
-        "Marina Coastal Expressway": 0,
-        "Pan-Island Expressway": 0,
-        "Seletar Expressway": 0,
-        "Tampines Expressway": 0,
-        "Tuas Checkpoint": 0,
-        "Woodlands Checkpoint": 0,
-    });
-    const [status, setStatus] = useState({
-        "Ayer Rajah Expressway": "Low",
-        "Bukit Timah Expressway": "Low",
-        "Central Expressway": "Low",
-        "East Coast Parkway": "Low",
-        "Kallang-Paya Lebar Expressway": "Low",
-        "Kranji Expressway": "Low",
-        "Marina Coastal Expressway": "Low",
-        "Pan-Island Expressway": "Low",
-        "Seletar Expressway": "Low",
-        "Tampines Expressway": "Low",
-        "Tuas Checkpoint": "Low",
-        "Woodlands Checkpoint": "Low",
-    });
-    const road = Object.keys(lengthOfRoad);
-    const rows = road.map((r, idx) => {
-        return createData(r, lengthOfRoad[r].toFixed(1), areaCoverage[r].toFixed(2), status[r]);
+
+    const [details, setDetails] = useState({
+        "Ayer Rajah Expressway": {
+            percent: 0,
+            status: "Low",
+        },
+        "Bukit Timah Expressway": {
+            percent: 0,
+            status: "Low",
+        },
+        "Central Expressway": {
+            percent: 0,
+            status: "Low",
+        },
+        "East Coast Parkway": {
+            percent: 0,
+            status: "Low",
+        },
+        "Kallang-Paya Lebar Expressway": {
+            percent: 0,
+            status: "Low",
+        },
+        "Kranji Expressway": {
+            percent: 0,
+            status: "Low",
+        },
+        "Marina Coastal Expressway": {
+            percent: 0,
+            status: "Low",
+        },
+        "Pan-Island Expressway": {
+            percent: 0,
+            status: "Low",
+        },
+        "Seletar Expressway": {
+            percent: 0,
+            status: "Low",
+        },
+        "Tampines Expressway": {
+            percent: 0,
+            status: "Low",
+        },
+        "Tuas Checkpoint": {
+            percent: 0,
+            status: "Low",
+        },
+        "Woodlands Checkpoint": {
+            percent: 0,
+            status: "Low",
+        },
     })
 
+    const [loading, setLoading] = useState(true);
+
+    // key names of object
+    const road = Object.keys(lengthOfRoad);
+    const rows = road.map((r, idx) => {
+        return createData(r, lengthOfRoad[r].toFixed(1), details[r].percent.toFixed(2), details[r].status);
+    })
+
+    // get traffic data from gov data
     const fetchTrafficData = async () => {
         let temp = {
             "Ayer Rajah Expressway": [],
@@ -112,40 +142,63 @@ const Overview = () => {
             })
         }
     }
-    const fetchTrafficCongestion = async () => {
-        // let totalPercent = 0;
-        let tempPercent = {
-            "Ayer Rajah Expressway": 0,
-            "Bukit Timah Expressway": 0,
-            "Central Expressway": 0,
-            "East Coast Parkway": 0,
-            "Kallang-Paya Lebar Expressway": 0,
-            "Kranji Expressway": 0,
-            "Marina Coastal Expressway": 0,
-            "Pan-Island Expressway": 0,
-            "Seletar Expressway": 0,
-            "Tampines Expressway": 0,
-            "Tuas Checkpoint": 0,
-            "Woodlands Checkpoint": 0,
-        }
 
-        let tempStatus = {
-            "Ayer Rajah Expressway": "Low",
-            "Bukit Timah Expressway": "Low",
-            "Central Expressway": "Low",
-            "East Coast Parkway": "Low",
-            "Kallang-Paya Lebar Expressway": "Low",
-            "Kranji Expressway": "Low",
-            "Marina Coastal Expressway": "Low",
-            "Pan-Island Expressway": "Low",
-            "Seletar Expressway": "Low",
-            "Tampines Expressway": "Low",
-            "Tuas Checkpoint": "Low",
-            "Woodlands Checkpoint": "Low",
+    // computer vision api call
+    const fetchTrafficCongestion = async () => {
+        let tempDetails = {
+            "Ayer Rajah Expressway": {
+                percent: 0,
+                status: "Low",
+            },
+            "Bukit Timah Expressway": {
+                percent: 0,
+                status: "Low",
+            },
+            "Central Expressway": {
+                percent: 0,
+                status: "Low",
+            },
+            "East Coast Parkway": {
+                percent: 0,
+                status: "Low",
+            },
+            "Kallang-Paya Lebar Expressway": {
+                percent: 0,
+                status: "Low",
+            },
+            "Kranji Expressway": {
+                percent: 0,
+                status: "Low",
+            },
+            "Marina Coastal Expressway": {
+                percent: 0,
+                status: "Low",
+            },
+            "Pan-Island Expressway": {
+                percent: 0,
+                status: "Low",
+            },
+            "Seletar Expressway": {
+                percent: 0,
+                status: "Low",
+            },
+            "Tampines Expressway": {
+                percent: 0,
+                status: "Low",
+            },
+            "Tuas Checkpoint": {
+                percent: 0,
+                status: "Low",
+            },
+            "Woodlands Checkpoint": {
+                percent: 0,
+                status: "Low",
+            },
         }
 
         // create an array to store all promises
         let promises = [];
+        setLoading(true);
         Object.keys(trafficData).forEach((key, idx) => {
             let totalPercent = 0;
             let count = 0;
@@ -167,15 +220,15 @@ const Overview = () => {
                             let percent = getAreaCoveragePercentage(response.data);
                             totalPercent += percent;
                             count++;
-                            tempPercent[key] = totalPercent/count;
-                            if (tempPercent[key]<20){
-                                tempStatus[key] = "Low";
+                            tempDetails[key].percent = totalPercent/count;
+                            if (tempDetails[key].percent<20){
+                                tempDetails[key].status = "Low";
                             }
-                            else if (tempPercent[key] > 20 && tempPercent[key] < 40){
-                                tempStatus[key] = "Medium";
+                            else if (tempDetails[key].percent > 20 && tempDetails[key].percent < 40){
+                                tempDetails[key].status = "Medium";
                             }
                             else {
-                                tempStatus[key] = "High";
+                                tempDetails[key].status = "High";
                             }
                         }
 
@@ -188,70 +241,65 @@ const Overview = () => {
         })
         // Wait for all promises to resolve, forEach by nature does not wait for async functions to finish before moving on
         await Promise.all(promises);
-        setAreaCoverage(tempPercent);
-        setStatus(tempStatus);
-        console.log(tempStatus);
-        console.log(tempPercent);
-        // count === 0 ? setCongestion(0) : setCongestion(totalPercent/count);
+        setDetails(tempDetails);
+        setLoading(false);
+        console.log(tempDetails);
     }
 
     useEffect(() => {
         fetchTrafficCongestion();
     }, [trafficData])
 
-
-
     useEffect(() => {
         fetchTrafficData();
     }, [])
     
-      
-      const header = {
-          fontSize:"25px",
-          color:"grey",
-          padding:"30px 50px",
-        //   backgroundColor:"#F5F5F5"
-      }
+    const header = {
+        fontSize:"25px",
+        color:"grey",
+        padding:"30px 50px",
+    //   backgroundColor:"#F5F5F5"
+    }
 
-      const content = {
-            fontSize:"18px",
-            color:"black",
-            padding:"20px 50px"
+    const content = {
+        fontSize:"18px",
+        color:"black",
+        padding:"20px 50px"
+    }
 
-      }
-
-      const statusLow ={
-            fontSize:"18px",
-            color:"green",
-            backgroundColor:'rgba(75, 192, 192, 0.2)',
-            borderRadius:"40px",
-            height:"50%",
-            padding:"10px 30px",
-            marginRight:"20px"
-      }
-
-        const statusMedium ={
-            fontSize:"18px",
-            color:"orange",
-            backgroundColor:'rgba(255, 159, 64, 0.2)',
-            borderRadius:"40px",
-            height:"50%",
-            padding:"10px 30px",
-            marginRight:"20px"
+    const commonStatusStyle = {
+        fontSize: "18px",
+        borderRadius: "40px",
+        height: "50%",
+        padding: "10px 30px",
+        marginRight: "20px",
+    };
+    
+    const statusStyles = {
+        Low: {
+            ...commonStatusStyle,
+            color: "green",
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        },
+        Medium: {
+            ...commonStatusStyle,
+            color: "orange",
+            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+        },
+        High: {
+            ...commonStatusStyle,
+            color: "red",
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
         }
-
-        const statusHigh ={
-            fontSize:"18px",
-            color:"red",
-            backgroundColor:'rgba(255, 99, 132, 0.2)',
-            borderRadius:"40px",
-            height:"50%",
-            padding:"10px 30px",
-            marginRight:"20px"
-        }
+    };
+    
 
     return ( 
         <div style={{height:"100%", width: "100%"}}>
+            {loading ?
+            <Box sx={{display:'flex', margin:"200px auto", justifyContent:"center"}}>
+                <CircularProgress />
+            </Box>   :
             <TableContainer component={Paper} style={{width:"90%", margin:"40px auto", borderRadius:"10px"}}>
                 <Table sx={{width:"100%", margin:"auto"}} aria-label="simple table">
                     <TableHead style={{ backgroundColor: "#edf8ff", width:"100%" }} >
@@ -269,19 +317,14 @@ const Overview = () => {
                             <TableCell style={content} align="right">{row.mileage}</TableCell>
                             <TableCell style={content} align="right">{row.trafficLevel}</TableCell>
                             <TableCell align="right">
-                               {
-                                      row.status === "Low" ? 
-                                      <span style={statusLow}>{row.status}</span> : 
-                                      row.status === "Medium" ? 
-                                      <span style={statusMedium}>{row.status}</span> : 
-                                      <span style={statusHigh}>{row.status}</span>
-                               }
+                                <span style={statusStyles[row.status]}>{row.status}</span>
                             </TableCell>
                         </TableRow>
                     ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+            }
         </div>
      );
 }

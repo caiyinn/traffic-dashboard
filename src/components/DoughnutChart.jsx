@@ -2,6 +2,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import search from '../assets/search.png';
 import { Typography } from '@mui/material';
+
 ChartJS.register(ArcElement, Tooltip, Legend); // Register ArcElement here
 
 const DoughnutChart = (props) => {
@@ -46,8 +47,6 @@ const DoughnutChart = (props) => {
   };
 
   return (
-    // <Doughnut data={data} style={{width:"80%", margin:"10px auto"}} />
-
     <>
         {props.congestion === 0 ?
             <div style={{width:"80%", display:"flex", flexDirection:"column", margin:"20px auto"}}>
