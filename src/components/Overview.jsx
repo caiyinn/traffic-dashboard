@@ -207,44 +207,47 @@ const Overview = () => {
     
       
       const header = {
-          fontSize:"30px",
+          fontSize:"25px",
           color:"grey",
-          padding:"30px",
+          padding:"30px 50px",
         //   backgroundColor:"#F5F5F5"
       }
 
       const content = {
-            fontSize:"20px",
+            fontSize:"18px",
             color:"black",
-            padding:"20px 30px"
+            padding:"20px 50px"
 
       }
 
       const statusLow ={
-            fontSize:"20px",
+            fontSize:"18px",
             color:"green",
             backgroundColor:'rgba(75, 192, 192, 0.2)',
             borderRadius:"40px",
             height:"50%",
-            padding:"10px 30px"
+            padding:"10px 30px",
+            marginRight:"20px"
       }
 
         const statusMedium ={
-            fontSize:"20px",
+            fontSize:"18px",
             color:"orange",
             backgroundColor:'rgba(255, 159, 64, 0.2)',
             borderRadius:"40px",
             height:"50%",
-            padding:"10px 30px"
+            padding:"10px 30px",
+            marginRight:"20px"
         }
 
         const statusHigh ={
-            fontSize:"20px",
+            fontSize:"18px",
             color:"red",
             backgroundColor:'rgba(255, 99, 132, 0.2)',
             borderRadius:"40px",
             height:"50%",
-            padding:"10px 30px"
+            padding:"10px 30px",
+            marginRight:"20px"
         }
 
     return ( 
@@ -255,7 +258,7 @@ const Overview = () => {
                         <TableRow>
                             <TableCell style={header}>Expressway</TableCell>
                             <TableCell style={header} align="right">Mileage (km)</TableCell>
-                            <TableCell style={header} align="right">Traffic Level</TableCell>
+                            <TableCell style={header} align="right">Traffic Level (%)</TableCell>
                             <TableCell style={header} align="right">Status</TableCell>
                         </TableRow>
                     </TableHead>
@@ -267,7 +270,11 @@ const Overview = () => {
                             <TableCell style={content} align="right">{row.trafficLevel}</TableCell>
                             <TableCell align="right">
                                {
-                                      row.status === "Low" ? <span style={statusLow}>{row.status}</span> : row.status === "Medium" ? <span style={statusMedium}>{row.status}</span> : <span style={statusHigh}>{row.status}</span>
+                                      row.status === "Low" ? 
+                                      <span style={statusLow}>{row.status}</span> : 
+                                      row.status === "Medium" ? 
+                                      <span style={statusMedium}>{row.status}</span> : 
+                                      <span style={statusHigh}>{row.status}</span>
                                }
                             </TableCell>
                         </TableRow>

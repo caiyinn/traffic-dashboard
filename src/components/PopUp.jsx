@@ -66,7 +66,7 @@ const PopUp = (props) => {
         <Marker position={pos} icon={pin} >
             <Popup>
                 <div style={{display:"flex", flexDirection:"column", width:"100%"}}>
-                    <div style={{ position: "relative", display: "inline-block", marginTop: "30px", width: "100%" }}>
+                    <div style={{ position: "relative", display: "inline-block", marginTop: "20px", width: "100%" }}>
                         <DrawBbox bbox={bbox} imageInfo={imageInfo} />
                         <img src={props.image} style={{  width: "100%", height:"auto"}} />
                     </div>
