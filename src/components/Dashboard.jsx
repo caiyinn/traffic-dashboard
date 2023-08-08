@@ -182,6 +182,7 @@ const Dashboard = () => {
                 <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap:"15px"}}>
                 <CardInfo
                     title="Traffic Congestion"
+                    type="congestion"
                     content={
                     <div className="congestion-bar" 
                     style={{ 
@@ -204,11 +205,13 @@ const Dashboard = () => {
                 />
                 <CardInfo
                     title="Mileage"
+                    type="imageAndText"
                     image={distance}
                     content={`${lengthOfRoad[expressway]}km`}
                 />
                 <CardInfo
                     title="Current Weather"
+                    type="imageAndText"
                     image={weather.icon}
                     content={weather.description}
                 />
