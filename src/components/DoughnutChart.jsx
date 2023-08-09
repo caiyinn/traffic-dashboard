@@ -40,7 +40,7 @@ const DoughnutChart = (props) => {
         labels: {
           boxWidth: 15,
           padding: 10,
-          width: "80%",
+          width: "90%",
         },
       },
     },
@@ -55,7 +55,7 @@ const DoughnutChart = (props) => {
                     No Vehicle Detected
                 </Typography>
             </div>  :
-            <Doughnut data={data} options={options} style={{width:"70%", margin: "10px auto"}} />
+            <Doughnut data={data} options={options} style={{width:"80%",height:"auto", margin: "10px auto"}} />
         }
     </>    
   );

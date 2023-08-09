@@ -149,10 +149,13 @@ const Dashboard = () => {
             console.log("Weather Data:", response.data.weather[0].description);
             setWeather(response.data.weather[0].description);
             let tempIcon = weatherIconHandler(response.data.weather[0].description);
+            let tempDescription = response.data.weather[0].description.split(" ").map(word => {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join(" ");
             import (`../assets/weather/${tempIcon}`).then(image => {
                 setWeather({
                     icon: image.default,
-                    description: response.data.weather[0].description,
+                    description: tempDescription,
                 });
             });
         })
@@ -188,7 +191,7 @@ const Dashboard = () => {
                     style={{ 
                         width: "90%",
                         height: "20px",
-                        marginTop: "40px",
+                        marginTop: "20px",
                         borderRadius: "10px",
                         backgroundColor: "#e0e0e0",
                         overflow: "hidden",
@@ -220,7 +223,7 @@ const Dashboard = () => {
                     <Map expresswayPoints={expresswayPoints} trafficData={trafficData} dt={time} /> 
                     <Card style={{width:"40%", marginLeft:"20px", borderRadius:'10px', border: "1px solid #dbdbdb", boxShadow:"none",  height:"50vh"}}>
                         <CardContent>
-                            <Typography variant="h5" style={{color:"#9a9a9a", marginLeft:"20px", marginTop:"10px",  marginBottom:"15px"}}>
+                            <Typography variant="h5" style={{fontSize:"18px", color:"#9a9a9a", marginLeft:"20px", marginTop:"10px",  marginBottom:"15px"}}>
                                 Vehicles
                             </Typography>
                             <DoughnutChart style={{margin:"auto"}} vehicle={vehicle} congestion={congestion}/>

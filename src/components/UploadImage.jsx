@@ -121,7 +121,7 @@ const UploadImage = () => {
 
     return ( 
         <div style={{height:"100%", width: "100%"}}>
-            <Typography variant="h4" style={{textAlign:"Left", width:"80%", margin:"20px auto", color:"grey"}}> 
+            <Typography variant="h4" style={{textAlign:"Left", width:"80%", margin:"20px auto", color:"grey", fontSize:"30px"}}> 
                 Model Prediction
             </Typography>
 

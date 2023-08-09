@@ -255,23 +255,23 @@ const Overview = () => {
     }, [])
     
     const header = {
-        fontSize:"25px",
+        fontSize:"20px",
         color:"grey",
-        padding:"30px 50px",
+        padding:"15px 50px",
     //   backgroundColor:"#F5F5F5"
     }
 
     const content = {
-        fontSize:"18px",
+        fontSize:"15px",
         color:"black",
-        padding:"20px 50px"
+        padding:"10px 50px"
     }
 
     const commonStatusStyle = {
-        fontSize: "18px",
+        fontSize: "15px",
         borderRadius: "40px",
         height: "50%",
-        padding: "10px 30px",
+        padding: "8px 20px",
         marginRight: "20px",
     };
     
@@ -300,7 +300,7 @@ const Overview = () => {
             <Box sx={{display:'flex', margin:"200px auto", justifyContent:"center"}}>
                 <CircularProgress />
             </Box>   :
-            <TableContainer component={Paper} style={{width:"90%", margin:"40px auto", borderRadius:"10px"}}>
+            <TableContainer component={Paper} style={{width:"90%", margin:"30px auto", borderRadius:"10px"}}>
                 <Table sx={{width:"100%", margin:"auto"}} aria-label="simple table">
                     <TableHead style={{ backgroundColor: "#edf8ff", width:"100%" }} >
                         <TableRow>
