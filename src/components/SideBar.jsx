@@ -8,6 +8,9 @@ import NavigationRoute from "./NavigationRoute";
 import { Link } from "react-router-dom"
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { getDTNow } from "../globalFunctions/utils";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const SideBar = () => {
     const location = useLocation();
@@ -24,6 +27,8 @@ const SideBar = () => {
         }
         return false;
     }
+    const dt = getDTNow();
+
     return (
         <div style={{display: 'grid', gridTemplateColumns: 'auto 1fr'}}>
             <Sidebar collapsed={menuCollapse} style={{backgroundColor:"white", height:'100vh', boxShadow:"none"}}>
@@ -52,6 +57,23 @@ const SideBar = () => {
                         >Upload Image
                     </MenuItem>
                 </Menu>
+                {menuCollapse ? null :
+                <div className="footer" style={{position:"absolute",display:"flex", bottom:"0", width:"100%", fontSize:"14px", color:"#696969"}}>
+                    <div style={{display: "flex"}}>
+                        <CalendarMonthIcon style={{fontSize:"16px", marginLeft:"10px", marginTop:"15px"}}/>
+                        <p style={{marginLeft:"10px", marginBottom:"10px"}}>
+                                {dt.date}
+                        </p>
+                    </div>
+                    <div style={{display: "flex"}}>
+                        <AccessTimeIcon style={{fontSize:"16px", marginLeft:"50px", marginTop:"15px"}}/>
+                        <p style={{marginLeft:"10px", marginBottom:"10px"}}>
+                            {dt.hour + ":" + dt.minute}
+                        </p>
+                    </div>
+                </div>
+                }
+
             </Sidebar>
             <NavigationRoute />
         </div>

@@ -33,18 +33,6 @@ export const lengthOfRoad = {
     "Woodlands Checkpoint": 2.4,
 }
 
-export const errorCodes = {
-    "400": "Bad Request",
-    "401": "Unauthorized",
-    "403": "Forbidden",
-    "404": "Not Found",
-    "408": "Request Timeout",
-    "413": "Payload Too Large",
-    "429": "Too Many Requests",
-    "500": "Internal Server Error",
-    "503": "Service Unavailable",
-}
-
 export const geoLocation = {
     "Ayer Rajah Expressway": [
       {
