@@ -13,7 +13,7 @@ const NotFound = () => {
                 <br/>
                 Please check the URL or click the button below to go back to the dashboard.
             </Typography>
-            <Button variant="contained" style={{margin:"10px auto", backgroundColor:"#0f8bf7"}} href="/dashboard">Redirect</Button>
+            <Button variant="contained" style={{margin:"10px auto", backgroundColor:"#0f8bf7"}} href="/">Redirect</Button>
 
         </div>
 

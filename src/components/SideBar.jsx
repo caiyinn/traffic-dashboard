@@ -35,8 +35,8 @@ const SideBar = () => {
                     <img src={travel} id="appIcon"/>
                     <MenuItem className="dashboard"
                         icon={<MonitorIcon style={iconColor}/>} 
-                        component={<Link to="dashboard"/>}
-                        style = {{backgroundColor: isActive("/dashboard") ? "#f0f0f0" : "transparent"}}
+                        component={<Link to="/"/>}
+                        style = {{backgroundColor: isActive("/") ? "#f0f0f0" : "transparent"}}
                         >Dashboard
                     </MenuItem>
                     <MenuItem 

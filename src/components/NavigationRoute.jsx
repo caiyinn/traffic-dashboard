@@ -9,7 +9,7 @@ function NavigationRoute() {
   return (
     <main style={{backgroundColor:"rgb(247, 247, 247)"}}>
         <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} />
             <Route path="/overview" element={<Overview />} />
             <Route path="/upload-image" element={<UploadImage />} />
             <Route path="*" element={<NotFound />} />
