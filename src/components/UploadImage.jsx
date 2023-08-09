@@ -8,6 +8,12 @@ import Box from '@mui/material/Box';
 import {useEffect} from 'react';
 import DrawBbox from './DrawBbox';
 import { getAreaCoveragePercentage } from '../globalFunctions/utils';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Collapse from '@mui/material/Collapse';
+import Notification from './Notification';
 
 const UploadImage = () => {
     const [image, setImage] = useState(null);
@@ -18,6 +24,11 @@ const UploadImage = () => {
     const [error, setError] = useState(false);
     const [bbox, setBbox] = useState({});
     const [imageInfo, setImageInfo] = useState({});
+    const [errorCode, setErrorCode] = useState(0);
+    const [open, setOpen] = useState(true);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('');
 
     const handleUpload = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -29,10 +40,16 @@ const UploadImage = () => {
                     dataUrl: reader.result
                 });
                 setImageLoading(true);
+                setInitial(false);
+
                 // fetchData(reader.result.split(',')[1]); // Removing the base64 header
             };
             reader.readAsDataURL(e.target.files[0]);
         }
+    };
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
     };
     
     useEffect(() => {
@@ -56,7 +73,6 @@ const UploadImage = () => {
         })
         .then(function(response) {
             setError(false);
-            setInitial(false);
             setImageInfo(response.data.image);
             const boxInfo = response.data.predictions.map (prediction => {
                 return {
@@ -71,12 +87,21 @@ const UploadImage = () => {
             setBbox(boxInfo);
             console.log(response.data)
             boxInfo.length === 0 ? setPercent(0) : setPercent(getAreaCoveragePercentage(response.data));
+            setSnackbarMessage("Image uploaded successfully!");
+            setOpenSnackbar(true);
+            setSnackbarSeverity('success');
             setLoading(false);
             setImageLoading(false);
         })
         .catch(function(error) {
-            console.log(error.message);
+            setErrorCode(error.message);
+            setSnackbarMessage(error.message);
+            setSnackbarSeverity('error');
+            setOpenSnackbar(true);
+            // console.log(error.message);
+            setOpen(true);
             setError(true);
+            setLoading(false);
         });
     };
 
@@ -144,6 +169,7 @@ const UploadImage = () => {
                 </Button>
             </div>
 
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="top" horizontal="right" />
             <div className="prediction-container">
                 {initial ?
                 null : 
@@ -153,6 +179,27 @@ const UploadImage = () => {
                     </Typography>
                     {loading ? 
                     <Typography variant="h6" style={{textAlign:"Left", color:"grey", fontWeight:"normal"}}>Loading...</Typography> : 
+                    error ? 
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                        <Collapse in={open}>
+                        <Alert severity="error"
+                        action={
+                            <IconButton
+                              aria-label="close"
+                              color="inherit"
+                              size="small"
+                              onClick={() => {
+                                setOpen(false);
+                              }}
+                            >
+                              <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                          }
+                          sx={{ mb: 2, marginTop:"10px" }}
+                            
+                        >{errorCode}: Check the file uploaded!</Alert>
+                        </Collapse>
+                    </Stack> :
                     <Typography variant="h6" style={{textAlign:"Left", color:"grey", fontWeight:"normal"}}>
                         The vehicle takes up {percent.toFixed(2)}% of the image.
                     </Typography>

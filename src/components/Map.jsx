@@ -22,7 +22,7 @@ const Map = (props) => {
 
   const singaporeCenter = [1.3521, 103.8198];
   return (
-    <MapContainer center={singaporeCenter} zoom={12} style={{ height: "50vh", width:"60%", borderRadius:"20px", border:"2px solid #dbdbdb"}}>
+    <MapContainer center={singaporeCenter} zoom={12} style={{ height: "60vh", width:"60%", borderRadius:"20px", border:"2px solid #dbdbdb"}}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -12,6 +12,7 @@ import { getAreaCoveragePercentage } from '../globalFunctions/utils';
 import DoughnutChart from "./DoughnutChart";
 import Box from '@mui/material/Box';
 import CardInfo from "./CardInfo";
+import Notification from "./Notification";
 
 const Dashboard = () => {
     const [expressway, setExpressway] = useState("Ayer Rajah Expressway")
@@ -20,6 +21,9 @@ const Dashboard = () => {
     const [congestion, setCongestion] = useState(0)
     const [loading, setLoading] = useState(false)
     const [time, setTime] = useState("")
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('');
     const [weather, setWeather] = useState({
         icon: "",
         description: "",
@@ -32,12 +36,18 @@ const Dashboard = () => {
         bicycle: 0,
     })
 
-    const handleSubmit = (e) => {
-        console.log(e.target.innerText)
-        setExpressway(e.target.innerText)
-        setExpresswayPoints(geoLocation[e.target.innerText])
+    const handleSubmit = (event, value) => {
+        if (value && value.label){
+            let tempInnerText = value.label.split(" ").map(word => {
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join(" ");
+            setExpressway(tempInnerText)
+            setExpresswayPoints(geoLocation[tempInnerText])
+        }
     }
-
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
     const fetchTrafficData = async () => {
         const dt = getDTNow();
         setTime(`${dt.date}, ${dt.hour}:${dt.minute}:${dt.second}`);
@@ -68,6 +78,9 @@ const Dashboard = () => {
             })
             .catch(function(error) {
                 console.log(error)
+                setOpenSnackbar(true);
+                setSnackbarMessage('Error fetching traffic data: ' + error.message);
+                setSnackbarSeverity('error');
             })
         }
     }
@@ -122,6 +135,9 @@ const Dashboard = () => {
 
                     }).catch(function(error) {
                         console.log(error.message);
+                        setOpenSnackbar(true);
+                        setSnackbarMessage('Error fetching traffic congestion: ' + error.message);
+                        setSnackbarSeverity('error');
                     }) 
                 );
             });
@@ -131,6 +147,9 @@ const Dashboard = () => {
         await Promise.all(promises);
         setVehicle(tempVehicle);
         setLoading(false);
+        setSnackbarMessage('Traffic data fetched successfully');
+        setSnackbarSeverity('success');
+        setOpenSnackbar(true);
         count === 0 ? setCongestion(0) : setCongestion(totalPercent/count);
     }
 
@@ -161,6 +180,9 @@ const Dashboard = () => {
         })
         .catch(function(error) {
             console.log(error);
+            setOpenSnackbar(true);
+            setSnackbarMessage('Error fetching weather data: ' + error.message);
+            setSnackbarSeverity('error');
         })
     }
 
@@ -221,15 +243,17 @@ const Dashboard = () => {
                 </div>
                 <div style={{display:"flex"}}>
                     <Map expresswayPoints={expresswayPoints} trafficData={trafficData} dt={time} /> 
-                    <Card style={{width:"40%", marginLeft:"20px", borderRadius:'10px', border: "1px solid #dbdbdb", boxShadow:"none",  height:"50vh"}}>
+                    <Card style={{width:"40%", marginLeft:"20px", borderRadius:'10px', border: "1px solid #dbdbdb", boxShadow:"none",  height:"60vh"}}>
                         <CardContent>
-                            <Typography variant="h5" style={{fontSize:"18px", color:"#9a9a9a", marginLeft:"20px", marginTop:"10px",  marginBottom:"15px"}}>
+                            <Typography variant="h5" style={{fontSize:"24px", color:"#9a9a9a", marginLeft:"20px", marginTop:"10px",  marginBottom:"30px"}}>
                                 Vehicles
                             </Typography>
                             <DoughnutChart style={{margin:"auto"}} vehicle={vehicle} congestion={congestion}/>
                         </CardContent>
                     </Card>
                 </div>
+                <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
+
             </div>
             }
         </div>

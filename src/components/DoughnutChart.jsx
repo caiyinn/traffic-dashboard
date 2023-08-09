@@ -1,4 +1,4 @@
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, plugins } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import search from '../assets/search.png';
 import { Typography } from '@mui/material';
@@ -39,12 +39,29 @@ const DoughnutChart = (props) => {
         position: 'top', // or 'top', 'bottom', 'left'
         labels: {
           boxWidth: 15,
-          padding: 10,
-          width: "90%",
+          width: "100%",
         },
       },
     },
+    layout: {
+        padding: "100px auto",
+    },
   };
+
+  const plugins = 
+    [
+        {
+            id: 'legendDistance',
+            beforeInit(chart, args, options) {
+                const orginalFit = chart.legend.fit;
+                chart.legend.fit = function() {
+                    orginalFit.bind(chart.legend)();
+                    this.height += 25; // make room for the extra line
+                }
+            }
+        }
+    ]
+  
 
   return (
     <>
@@ -55,7 +72,7 @@ const DoughnutChart = (props) => {
                     No Vehicle Detected
                 </Typography>
             </div>  :
-            <Doughnut data={data} options={options} style={{width:"80%",height:"auto", margin: "10px auto"}} />
+            <Doughnut data={data} options={options} plugins={plugins} style={{width:"90%",height:"auto", margin: "10px auto"}} />
         }
     </>    
   );

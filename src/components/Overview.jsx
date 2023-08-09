@@ -13,6 +13,7 @@ import { lengthOfRoad, geoLocation, vehicleURL } from "../globalVars";
 import { getDTNow } from "../globalFunctions/utils";
 import axios from "axios";
 import { getAreaCoveragePercentage } from '../globalFunctions/utils';
+import Notification from "./Notification";
 
 function createData(name, mileage, trafficLevel, status) {
   return { name, mileage, trafficLevel, status };
@@ -33,7 +34,9 @@ const Overview = () => {
         "Tuas Checkpoint": [],
         "Woodlands Checkpoint": [],
     });
-
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('');
     const [details, setDetails] = useState({
         "Ayer Rajah Expressway": {
             percent: 0,
@@ -87,6 +90,10 @@ const Overview = () => {
 
     const [loading, setLoading] = useState(true);
 
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
+
     // key names of object
     const road = Object.keys(lengthOfRoad);
     const rows = road.map((r, idx) => {
@@ -139,6 +146,9 @@ const Overview = () => {
             })
             .catch(function(error) {
                 console.log(error)
+                setOpenSnackbar(true);
+                setSnackbarMessage(error.message);
+                setSnackbarSeverity("error");
             })
         }
     }
@@ -235,6 +245,9 @@ const Overview = () => {
                     })
                     .catch(function(error) {
                         console.log(error)
+                        setOpenSnackbar(true);
+                        setSnackbarMessage(error.message);
+                        setSnackbarSeverity("error");
                     })
                 )
             })
@@ -243,6 +256,9 @@ const Overview = () => {
         await Promise.all(promises);
         setDetails(tempDetails);
         setLoading(false);
+        setOpenSnackbar(true);
+        setSnackbarMessage("Traffic data fetched successfully!");
+        setSnackbarSeverity("success");
         console.log(tempDetails);
     }
 
@@ -300,6 +316,7 @@ const Overview = () => {
             <Box sx={{display:'flex', margin:"200px auto", justifyContent:"center"}}>
                 <CircularProgress />
             </Box>   :
+            <>
             <TableContainer component={Paper} style={{width:"90%", margin:"30px auto", borderRadius:"10px"}}>
                 <Table sx={{width:"100%", margin:"auto"}} aria-label="simple table">
                     <TableHead style={{ backgroundColor: "#edf8ff", width:"100%" }} >
@@ -324,6 +341,9 @@ const Overview = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
+            
+            </>
             }
         </div>
      );
