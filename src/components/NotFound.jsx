@@ -11,7 +11,7 @@ const NotFound = () => {
             <Typography variant="h6" style={{color:"grey", textAlign:"center", fontSize:"18px", margin:" 10px auto"}}>
                 We're sorry, but the page you are looking for doesn't exist.
                 <br/>
-                Please check the URL or click the button below to go back to the dashboard.
+                Please check the URL or click the button below to return back to dashboard.
             </Typography>
             <Button variant="contained" style={{margin:"10px auto", backgroundColor:"#0f8bf7"}} href="/">Redirect</Button>
 
