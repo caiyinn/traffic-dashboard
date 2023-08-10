@@ -4,7 +4,7 @@ import Dashboard from "./Dashboard";
 import Overview from "./Overview";
 import UploadImage from "./UploadImage";
 import NotFound from "./NotFound";
-// #F3F6FA
+
 function NavigationRoute() {
   return (
     <main style={{backgroundColor:"rgb(247, 247, 247)"}}>

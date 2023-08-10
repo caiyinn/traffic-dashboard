@@ -6,15 +6,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from "@mui/material/Box";
 import {useState, useEffect} from 'react';
 import { lengthOfRoad, geoLocation, vehicleURL } from "../globalVars";
 import { getDTNow } from "../globalFunctions/utils";
 import axios from "axios";
 import { getAreaCoveragePercentage } from '../globalFunctions/utils';
 import Notification from "./Notification";
-
+import Loading from "./Loading";
 function createData(name, mileage, trafficLevel, status) {
   return { name, mileage, trafficLevel, status };
 }
@@ -234,7 +232,7 @@ const Overview = () => {
                             if (tempDetails[key].percent<20){
                                 tempDetails[key].status = "Low";
                             }
-                            else if (tempDetails[key].percent > 20 && tempDetails[key].percent < 40){
+                            else if (tempDetails[key].percent > 20 && tempDetails[key].percent < 50){
                                 tempDetails[key].status = "Medium";
                             }
                             else {
@@ -313,16 +311,14 @@ const Overview = () => {
     return ( 
         <div style={{height:"100%", width: "100%"}}>
             {loading ?
-            <Box sx={{display:'flex', margin:"200px auto", justifyContent:"center"}}>
-                <CircularProgress />
-            </Box>   :
+            <Loading /> :
             <>
             <TableContainer component={Paper} style={{width:"90%", margin:"30px auto", borderRadius:"10px"}}>
                 <Table sx={{width:"100%", margin:"auto"}} aria-label="simple table">
                     <TableHead style={{ backgroundColor: "#edf8ff", width:"100%" }} >
                         <TableRow>
                             <TableCell style={header}>Expressway</TableCell>
-                            <TableCell style={header} align="right">Mileage (km)</TableCell>
+                            <TableCell style={header} align="right">Distance (km)</TableCell>
                             <TableCell style={header} align="right">Traffic Level (%)</TableCell>
                             <TableCell style={header} align="right">Status</TableCell>
                         </TableRow>
@@ -342,7 +338,6 @@ const Overview = () => {
                 </Table>
             </TableContainer>
             <Notification openSnackbar={openSnackbar} handleCloseSnackbar={handleCloseSnackbar} snackbarMessage={snackbarMessage} snackbarSeverity={snackbarSeverity} vertical="bottom" horizontal="right"/>
-            
             </>
             }
         </div>

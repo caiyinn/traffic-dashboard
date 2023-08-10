@@ -6,7 +6,6 @@ import { Typography } from '@mui/material';
 ChartJS.register(ArcElement, Tooltip, Legend); // Register ArcElement here
 
 const DoughnutChart = (props) => {
-  console.log("data: ",props.vehicle)
   const data = {
     labels: ["car", "bus", "truck", "motorcycle", "bicycle"],
 

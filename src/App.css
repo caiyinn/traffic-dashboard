@@ -44,3 +44,6 @@
   width: 80%;
   margin:auto;
 }
+.congestion-progress:hover{
+  cursor: pointer;
+}

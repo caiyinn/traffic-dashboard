@@ -29,11 +29,12 @@ const UploadImage = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('');
-
+    
     const handleUpload = (e) => {
         if (e.target.files && e.target.files[0]) {
             const reader = new FileReader();
-    
+            
+            // waits for the file to be loaded before setting the image
             reader.onloadend = () => {
                 // reader.result contains the base64 string
                 setImage({
@@ -41,9 +42,8 @@ const UploadImage = () => {
                 });
                 setImageLoading(true);
                 setInitial(false);
-
-                // fetchData(reader.result.split(',')[1]); // Removing the base64 header
             };
+            // read the file as a base64 string
             reader.readAsDataURL(e.target.files[0]);
         }
     };
@@ -53,11 +53,13 @@ const UploadImage = () => {
     };
     
     useEffect(() => {
+        // check if the image is a valid image
         if (image!==null) {
             fetchData(image.dataUrl.split(',')[1]);
         }
     }, [image])
 
+    // computer vision api
     const fetchData = async (base64Image) => {
         setLoading(true);
         await axios({
@@ -85,7 +87,6 @@ const UploadImage = () => {
                 }
             })
             setBbox(boxInfo);
-            console.log(response.data)
             boxInfo.length === 0 ? setPercent(0) : setPercent(getAreaCoveragePercentage(response.data));
             setSnackbarMessage("Image uploaded successfully!");
             setOpenSnackbar(true);
@@ -98,7 +99,7 @@ const UploadImage = () => {
             setSnackbarMessage(error.message);
             setSnackbarSeverity('error');
             setOpenSnackbar(true);
-            // console.log(error.message);
+            console.log(error.message);
             setOpen(true);
             setError(true);
             setLoading(false);

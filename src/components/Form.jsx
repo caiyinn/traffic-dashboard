@@ -9,9 +9,9 @@ const Form = (props) => {
     return ( 
         <Autocomplete
                 style={{paddingTop:'20px'}}
-                disablePortal
+                disablePortal // disable portal to prevent the dropdown list from being cut off
                 id="combo-box-demo"
-                options={road}
+                options={road} // options is the array of the expressways
                 defaultValue={road[0]}
                 onChange = {props.handleSubmit}
                 renderInput={(params) => 
@@ -21,6 +21,7 @@ const Form = (props) => {
                     InputProps={{
                         ...params.InputProps,
                         style: { paddingLeft: "40px", backgroundColor:"white", borderRadius:"10px" },
+                        // for the icon in the input field
                         startAdornment: (
                         <InputAdornment position="start">
                             <SearchIcon style={{ position: "absolute", left:"15px", top:"15px"}} />

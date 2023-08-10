@@ -6,7 +6,6 @@ import { Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getAreaCoveragePercentage } from '../globalFunctions/utils';
-import { PieChart } from '@mui/x-charts/PieChart';
 
 const PopUp = (props) => {
     const [bbox, setBbox] = useState({});
@@ -20,6 +19,7 @@ const PopUp = (props) => {
         iconSize: [30, 30],
     });
 
+    // computer vision api
     const fetchPrediction = async () => {
         await axios({
             method: "POST",
@@ -34,6 +34,7 @@ const PopUp = (props) => {
         })
         .then(function(response) {
             console.log(response.data)
+            // get the bounding box information and store it in bbox
             const boxInfo = response.data.predictions.map (prediction => {
                 return {
                     label: prediction.class,
@@ -46,14 +47,10 @@ const PopUp = (props) => {
             })
             setBbox(boxInfo);
             setImageInfo(response.data.image);
-            // setError(false);
-            // setInitial(false);
-            // setImageInfo(response.data.image);
-            // setBbox(response.data.prediction.bbox);
             response.data.predictions.length>0 ? setPercent(getAreaCoveragePercentage(response.data)) : setPercent(0);
-            // setLoading(false);
         })
         .catch(function(error) {
+            console.log(error.message);
         });
     }
 
@@ -73,7 +70,7 @@ const PopUp = (props) => {
                     <Typography component="p" style={{fontSize:"15px", textAlign:"justify", lineHeight:"1.25",fontWeight:"800", margin:"15px auto"}}>
                         {props.expresswayName}
                     </Typography>
-                    <Typography component="p" style={{fontSize:"15px", textAlign:"left", lineHeight:"1.25"}}>
+                    <Typography component="p" style={{fontSize:"15px", textAlign:"left", lineHeight:"1.25", marginTop:"10px"}}>
                         Latitude: {props.latitude} 
                         <br/>
                         Longitude: {props.longitude}

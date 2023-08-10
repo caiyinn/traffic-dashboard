@@ -6,8 +6,8 @@ const Notification = (props) => {
         <Snackbar
             anchorOrigin={{ vertical: props.vertical, horizontal: props.horizontal }}
             open={props.openSnackbar}
-            autoHideDuration={6000}
-            onClose={props.handleCloseSnackbar}
+            autoHideDuration={6000} // 6 seconds
+            onClose={props.handleCloseSnackbar} // This function is called when the snackbar closes
             message={props.snackbarMessage}
             key={props.vertical + props.horizontal}
         >

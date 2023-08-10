@@ -10,8 +10,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getDTNow } from "../globalFunctions/utils";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 const SideBar = () => {
     const location = useLocation();
     const [menuCollapse, setMenuCollapse] = useState(false)
@@ -31,7 +30,7 @@ const SideBar = () => {
 
     return (
         <div style={{display: 'grid', gridTemplateColumns: 'auto 1fr'}}>
-            <Sidebar collapsed={menuCollapse} style={{backgroundColor:"white", height:'100vh', boxShadow:"none"}}>
+            <Sidebar width={"200px"} collapsed={menuCollapse} style={{backgroundColor:"white", height:'100vh'}}>
                 <Menu style={{marginTop:"20px", fontSize:"14px"}}>
                     <MenuRoundedIcon 
                     className="toggle-menu"
@@ -58,16 +57,16 @@ const SideBar = () => {
                     </MenuItem>
                 </Menu>
                 {menuCollapse ? null :
-                <div className="footer" style={{position:"absolute",display:"flex", bottom:"0", width:"100%", fontSize:"14px", color:"#696969"}}>
+                <div className="footer" style={{position:"absolute",display:"flex", bottom:"0", width:"100%", fontSize:"12px", color:"#696969"}}>
                     <div style={{display: "flex"}}>
-                        <CalendarMonthIcon style={{fontSize:"16px", marginLeft:"10px", marginTop:"15px"}}/>
-                        <p style={{marginLeft:"10px", marginBottom:"10px"}}>
+                        <CalendarMonthIcon style={{fontSize:"16px", marginLeft:"10px", marginTop:"11px"}}/>
+                        <p style={{marginLeft:"5px", marginBottom:"10px", color:`${iconColor.color}`}}>
                                 {dt.date}
                         </p>
                     </div>
-                    <div style={{display: "flex"}}>
-                        <AccessTimeIcon style={{fontSize:"16px", marginLeft:"50px", marginTop:"15px"}}/>
-                        <p style={{marginLeft:"10px", marginBottom:"10px"}}>
+                    <div style={{display: "flex", marginLeft:"30px"}}>
+                        <AccessTimeFilledIcon style={{fontSize:"12px", marginTop:"13px", color:`${iconColor.color}`}}/>
+                        <p style={{marginLeft:"5px", marginBottom:"10px"}}>
                             {dt.hour + ":" + dt.minute}
                         </p>
                     </div>

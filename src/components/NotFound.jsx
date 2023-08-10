@@ -1,6 +1,6 @@
 import error from "../assets/error.png";
 import { Button, Typography } from "@mui/material";
-import Dashboard from "./Dashboard";
+
 const NotFound = () => {
     return ( 
         <div className="not-found" style={{ display:"flex", justifyContent:"center", flexDirection:"column", alignItems: "center"}}>
