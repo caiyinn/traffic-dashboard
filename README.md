@@ -2,7 +2,6 @@
 This is a simple traffic dashboard web application that provides real-time information about the traffic conditions and weather. Based on the user input, the traffic congestion, vehicle counts, mileage information, weather conditions and traffic images with an interactive map will be displayed. The application was deployed with Vercel, check out the live site [here](https://traffic-dashboard-snowy.vercel.app/dashboard)!
 
 ## Features
-
 ### Dashboard
 1. Expressway Selection: Choose from a predefined list of expressways to monitor.
 2. Traffic Congestion: View the current traffic congestion on the selected expressway.
@@ -31,6 +30,7 @@ This is a simple traffic dashboard web application that provides real-time infor
 * leaflet
 * react-chart-js2
 * chart
+* react-pro-sidebar
 
 ### API used
 * [OpenWeatherMap](https://openweathermap.org/api): Fetches traffic images based on specified time and date
@@ -47,9 +47,9 @@ npm install
 HTTPS=true npm start
 ```
 
-#### For Windows users
+#### For windows users
 ```
 set HTTPS=true && npm start
 ```
 
-Run on localhost https://localhost:3000 to start development
+Run on localhost (https://localhost:3000) to start development
