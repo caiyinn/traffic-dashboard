@@ -33,9 +33,9 @@ This is a simple traffic dashboard web application that provides real-time infor
 * react-pro-sidebar
 
 ### API used
-* [OpenWeatherMap](https://openweathermap.org/api): Fetches traffic images based on specified time and date
+* [OpenWeatherMap](https://openweathermap.org/api): Retrieves current weather data
 * [RoboFlow Computer Vision](https://universe.roboflow.com/roboflow-100/vehicles-q0x2v): Object Recognition to recognise vehicles
-* [Traffic Images](https://data.gov.sg/dataset/traffic-images): Retrieves current weather data
+* [Traffic Images](https://data.gov.sg/dataset/traffic-images): Fetches traffic images based on specified time and date
 
 ## Getting Started
 Clone the repository and run the following commands in the terminal
